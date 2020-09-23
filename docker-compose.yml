@@ -1,0 +1,43 @@
+version: '3.7'
+
+services:
+  python:
+    build: ./services/python
+    command: python app/main.py
+    volumes:
+      - ./services/python/:/usr/src/app/
+    env_file:
+      - ./.env.dev
+#  flask_server:
+#    build: ./services/flask_server
+#    command: python manage.py run -h 0.0.0.0
+#    volumes:
+#      - ./services/flask_server/:/usr/src/app/
+#    ports:
+#      - 5000:5000
+#    env_file:
+#      - ./.env.dev
+#    depends_on:
+#      - db
+#  django_server:
+#    build: ./services/django_server
+#    command: python manage.py runserver 0.0.0.0:8000
+#    ports:
+#      - 8000:8000
+#    env_file:
+#      - ./.env.dev
+#    depends_on:
+#      - db
+#    volumes:
+#      - ./django_server:/app
+#  db:
+#    image: postgres:12-alpine
+#    volumes:
+#      - postgres_data:/var/lib/postgresql/data/
+#    environment:
+#      - POSTGRES_USER=hello_flask
+#      - POSTGRES_PASSWORD=hello_flask
+#      - POSTGRES_DB=hello_flask_dev
+#
+#volumes:
+#  postgres_data:

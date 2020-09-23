@@ -1,0 +1,44 @@
+version: '3.7'
+
+services:
+  python:
+    build: ./services/python
+    command: python app/main.py
+    volumes:
+      - ./services/python/:/usr/src/app/
+    env_file:
+      - ./.env.prod
+  flask_server:
+    build:
+      context: ./services/flask_server
+      dockerfile: Dockerfile.prod
+    command: gunicorn --bind 0.0.0.0:5000 manage:app
+    volumes:
+      - static_volume:/home/app/flask_server/project/static
+      - media_volume:/home/app/flask_server/project/media
+    expose:
+      - 5000
+    env_file:
+      - ./.env.prod
+    depends_on:
+      - db
+  db:
+    image: postgres:12-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    env_file:
+      - ./.env.prod.db
+  nginx:
+    build: ./services/nginx
+    volumes:
+      - static_volume:/home/app/flask_server/project/static
+      - media_volume:/home/app/flask_server/project/media
+    ports:
+      - 1337:80
+    depends_on:
+      - flask_server
+
+volumes:
+  postgres_data:
+  static_volume:
+  media_volume:
