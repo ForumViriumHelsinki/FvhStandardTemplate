@@ -22,6 +22,10 @@ Develop. Run again. Develop. Run. Test. Deploy.
 
 Rename `.env.dev-sample` to `.env.dev`.
 
+If you want to run python app locally (not in Docker container),
+you can activate environment variables running this command:  
+`export $(xargs < .env.dev)`
+
 
 ### Python 
 
