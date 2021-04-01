@@ -1,5 +1,5 @@
 # pull official base image
-FROM python:3.8-slim-buster
+FROM python:3.9-slim-buster
 
 # set work directory
 WORKDIR /usr/src/app
@@ -9,7 +9,28 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
 # install system dependencies
-RUN apt-get update && apt-get install -y netcat
+RUN apt-get update --fix-missing
+
+RUN apt-get install -y \
+    wget \
+    bzip2 \
+    ca-certificates \
+    build-essential \
+    curl \
+    git-core \
+    pkg-config \
+    python3-dev \
+    python3-pip \
+    python3-setuptools \
+    python3-virtualenv \
+    unzip \
+    software-properties-common \
+    llvm \
+    netcat \
+    libpq-dev
+
+# If you need GIS:
+# RUN apt-get install -y gdal-bin python-gdal python3-gdal
 
 # install dependencies
 RUN pip install --upgrade pip
